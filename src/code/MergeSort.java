@@ -13,6 +13,8 @@ import java.util.Arrays;
  * @author emanu
  * @param <T>
  */
+
+//Questao 1
 public class MergeSort<T extends Comparable <T>>{
      public <T extends Comparable <T>> void mergeSort(T[] v, int inicio, int fim) {
         if(fim - inicio > 1){

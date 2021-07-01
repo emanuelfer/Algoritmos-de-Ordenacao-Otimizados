@@ -12,32 +12,33 @@ import java.util.Arrays;
  * @author emanu
  */
 
-//Questao 2 e 3
-public class MergeSortWithInsert <T extends Comparable<T>>{
+//Questao 4
+public class MergeSortOptimized<T extends Comparable <T>>{
     public static int comp = 0;    
     
-    public <T extends Comparable <T>> void mergeSort(T[] v, int inicio, int fim) {
+    public <T extends Comparable <T>> void sort(T[] v, T[] temp, int n){
+        copy(v, temp, 0, n);
+        mergeSort(v, temp, 0, n);
+    }
+    
+    public static <T extends Comparable <T>> void mergeSort(T[] v, T[] temp, int inicio, int fim) {
         if(v.length <= 15){
             insertionSort(v, fim - inicio);
         }
         if(fim - inicio > 1){
             int meio = (inicio + fim)/2;
-            mergeSort(v, inicio, meio);
-            mergeSort(v, meio, fim);
-            
-            //v[meio] > v[meio-1]
-            if(!(v[meio].compareTo(v[meio-1]) >= 0)){
-                merge(v, inicio, meio, fim);
-
+            mergeSort(temp, v, inicio, meio);
+            mergeSort(temp, v, meio, fim);
+            if(!(temp[meio].compareTo(temp[meio-1]) >= 0)){
+                merge(temp, v, inicio, meio, fim);
             }
         }
     }
     
-    public static <T extends Comparable<T>> void merge(T[] v, int inicio, int meio, int fim){
-        T[] temp = Arrays.copyOf(v, fim - inicio);
+    public static <T extends Comparable<T>> void merge(T[] v, T[] temp, int inicio, int meio, int fim){
         int i = inicio;
         int m = meio;
-        int pos = 0;
+        int pos = inicio;
         
         while(i < meio && m < fim){
             //v[i] < v[m]
@@ -56,13 +57,7 @@ public class MergeSortWithInsert <T extends Comparable<T>>{
         while(m < fim){
             temp[pos++] = v[m++];
             comp++;
-        }
-
-        for(pos = 0, i = inicio; i < fim; i++, pos++){
-            v[i] = temp[pos];
-            comp++;
-        }
-            
+        }            
     }
     
     public static <T extends Comparable<T>> void insertionSort(T[] v, int n){
@@ -75,6 +70,12 @@ public class MergeSortWithInsert <T extends Comparable<T>>{
                 v[j] = v[j-1];
             }
             v[j] = aux;
+        }
+    }
+    
+    public static <T> void copy(T[] v, T[] temp, int ini, int fim){
+        for(int i = ini; i< fim; i++){
+            temp[i] = v[i];
         }
     }
 }
